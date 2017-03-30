@@ -342,7 +342,9 @@ Amy.dialog("/blood", [
         session.send("For example, you might like to go swimming once a week?");
         session.endConversation();
         session.clearDialogStack();
-        session.beginDialog("/");
+        
+        //can't being again here else it will display all the text
+        //session.beginDialog("/");
     }
 ]);
 /*    Amy.dialog("/healthAge", [
