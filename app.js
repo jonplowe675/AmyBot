@@ -36,7 +36,8 @@ moment().format();
 
 Amy.dialog('/', [
     function (session) {
-        //session.send should work but doesnt'
+        //session.send should work but doesnt' work properly!
+        session.clearDialogStack;
         session.send("Hi my name is Amy and welcome to the Health age calculator from AXA.");
         session.send("A couple of things before we get started, it will take us about 10 minutes to complete the calculation.");
         builder.Prompts.confirm(session,"We are going to ask some personal information about your health, is that OK?",{listStyle: builder.ListStyle["button"]});
@@ -101,7 +102,7 @@ Amy.dialog("/gender", [
 
     function (session, results) {
         //session.send("gender = " + results.response.entity);   
-        //if (results.response)
+        
         //{
         builder.Prompts.text(session, "What is your date of birth? (any format)");
     },
@@ -111,7 +112,8 @@ Amy.dialog("/gender", [
         //var dob = moment(results.response);
         //session.send("dob is " + dob);
         //this doesn't work
-        
+        session.send(results.response);
+        if (results.response == "reset") { session.reset("/")}
 
         session.send("That's great, now lets gather some of your body measurements");   
         //not the final version  
@@ -133,6 +135,7 @@ Amy.dialog("/gender", [
  
         session.userData.weight = results.response;
         //session.beginDialog("/waistCard");
+        if (results.response == "reset") { session.reset("/")}
 
         var msg = new builder.Message(session)
             .textFormat(builder.TextFormat.xml)
@@ -152,7 +155,7 @@ Amy.dialog("/gender", [
      },
 
     function (session, results) {
-
+        if (results.response == "reset") { session.reset("/")}    
         session.userData.waist = results.response;
 
         //session.beginDialog("/hipCard");
@@ -174,7 +177,7 @@ Amy.dialog("/gender", [
      },
 
     function (session, results) {
-
+        if (results.response == "reset") { session.reset("/");}
         session.userData.hip = results.response;
 
        
@@ -234,7 +237,7 @@ Amy.dialog("/family", [
      },
 
     function (session, results) {
-
+        if (results.response == "reset") { session.reset("/");}
         session.userData.familyhistory = results.response;
         if (session.userData.familyhistory) {
             session.send("I am very sorry to hear that.  I need to ask some more questions");
@@ -288,7 +291,7 @@ Amy.dialog("/attackage", [
      },
 
      function (session, results) {
-
+        if (results.response == "reset") { session.reset("/")}
         //session.userData.family = results.response;   
     session.replaceDialog("/familyhistory");
         //bot.end
@@ -316,7 +319,7 @@ Amy.dialog("/blood", [
      },
 
     function (session, results) {
-
+        if (results.response == "reset") { session.reset("/");}
         session.userData.diatolic = results.response;
 
         //Cholesterol level
@@ -330,7 +333,7 @@ Amy.dialog("/blood", [
         builder.Prompts.choice(session, "Complete full question set or show your health age now?","Full Set|Show Now",{listStyle: builder.ListStyle["button"]});
     },
     function (session, results) {
-
+        if (results.response == "reset") { session.reset("/");}
         session.userData.gotoend = results.response;
 
         //go to end regardless
