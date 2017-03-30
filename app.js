@@ -343,10 +343,11 @@ Amy.dialog("/blood", [
         session.endConversation();
         session.clearDialogStack();
         session.beginDialog("/");
+    }
 ]);
 /*    Amy.dialog("/healthAge", [
     function (session, results) {
-        
+        person
         //attack age
         session.send(session, "Thank you for providing all the information.  Your health age is 39 and we think you could reduce this by 5 years." );
         session.send(session, "For example, you might like to go swimming once a week?");
